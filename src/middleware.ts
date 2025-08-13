@@ -19,9 +19,41 @@ function getRequiredRole(pathname: string): "admin" | "user" | null {
 }
 
 export async function middleware(req: NextRequest) {
-  const token = req.cookies.get("token")?.value;
   const { pathname } = req.nextUrl;
 
+  if (pathname === "/api/login" || pathname === "/api/register") {
+    return NextResponse.next();
+  }
+
+  if (pathname.startsWith("/api")) {
+    const authHeader = req.headers.get("authorization");
+    const token = authHeader?.split(" ")[1];
+    if (!token) {
+      return NextResponse.json(
+        { status: 401, message: "Không có token" },
+        { status: 401 }
+      );
+    }
+
+    try {
+      const secret = new TextEncoder().encode(process.env.JWT_SECRET);
+      const { payload } = await jwtVerify(token, secret);
+
+      const requestHeaders = new Headers(req.headers);
+      requestHeaders.set("x-user-payload", JSON.stringify(payload));
+
+      return NextResponse.next({
+        request: { headers: requestHeaders },
+      });
+    } catch {
+      return NextResponse.json(
+        { status: 401, message: "Token không hợp lệ" },
+        { status: 401 }
+      );
+    }
+  }
+
+  const token = req.cookies.get("token")?.value;
   if (PUBLIC_PATHS.includes(pathname)) {
     return NextResponse.next();
   }
@@ -47,6 +79,7 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
-    "/((?!api|_next|.*\\..*).*)",
+    "/((?!_next|.*\\..*).*)",
+    "/api/:path*",
   ],
 };
