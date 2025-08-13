@@ -12,9 +12,13 @@ import { ROUTERS } from "@/constants/routers";
 import { ROLES } from "@/constants/roles";
 import { getAxiosErrorMessage } from "@/helper/common";
 import { saveToken } from "@/ultis/cookie";
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "@/lib/slices/userSlice";
 
 const Login = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+
   const initialValues: TLogin = {
     email: "user1@gmail.com",
     password: "123456",
@@ -25,6 +29,7 @@ const Login = () => {
       const res = await userApi.login(values);
       if (res.status === 200 && res.data.token) {
         saveToken(res.data.token);
+        dispatch(setUserInfo(res.data.user));
         toast.success(res.message);
 
         if (res.data.user.role === ROLES.ADMIN) {

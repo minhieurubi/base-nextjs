@@ -4,7 +4,7 @@ import { Box, TextField, Typography } from "@mui/material";
 import { Field, Form, Formik, ErrorMessage } from "formik";
 import CustomButton from "@/components/button/CustomButton";
 import { registerValidationSchema } from "@/validate/yupValidatation";
-import { TRegister } from "@/types/common";
+import { TUpdateUserReq } from "@/types/common";
 import { userApi } from "@/services/api";
 import { toast } from "react-toastify";
 import { ROUTERS } from "@/constants/routers";
@@ -15,13 +15,13 @@ import { saveToken } from "@/ultis/cookie";
 
 const Register = () => {
   const router = useRouter();
-  const initialValues: TRegister = {
+  const initialValues: TUpdateUserReq = {
     username: "",
     email: "",
     password: "",
   };
 
-  const handleSubmit = async (values: TRegister) => {
+  const handleSubmit = async (values: TUpdateUserReq) => {
     try {
       const res = await userApi.register(values);
 

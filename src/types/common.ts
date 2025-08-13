@@ -16,21 +16,23 @@ export type TLogin = {
   password: string;
 }
 
-export type TRegister = {
+export type TUpdateUserReq = {
   username: string;
   email: string;
-  password: string;
+  password?: string;
+  urlAvatar?: string;
 }
 
-export type TUser = {
+export interface UserInfo {
   id: string;
   email: string;
   username: string;
   role: string;
   urlAvatar?: string;
-};
+  password?: string;
+}
 
 export type TAuthResponse = {
   token: string;
-  user: TUser;
+  user: UserInfo;
 };

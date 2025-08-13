@@ -4,13 +4,31 @@ import { useRouter } from "next/navigation";
 import { ROUTERS } from "@/constants/routers";
 import { getAccessToken, removeCookies } from "@/ultis/cookie";
 import { useEffect, useState } from "react";
+import { userApi } from "@/services/api";
+import { toast } from "react-toastify";
+import { getAxiosErrorMessage } from "@/helper/common";
+import { setUserInfo } from "@/lib/slices/userSlice";
+import { useDispatch } from "react-redux";
 
 export default function Header() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [isToken, setIsToken] = useState<boolean>(false);
 
   useEffect(() => {
-    setIsToken(!!getAccessToken());
+    (async () => {
+      const token = getAccessToken();
+      setIsToken(!!token);
+
+      if (!token) return;
+
+      try {
+        const res = await userApi.getUserInfo();
+        dispatch(setUserInfo(res.data));
+      } catch (error) {
+        toast.error(getAxiosErrorMessage(error));
+      }
+    })();
   }, []);
 
   const handleNavigation = (path: string) => {

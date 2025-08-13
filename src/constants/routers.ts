@@ -17,4 +17,6 @@ export const API_ROUTES = {
     LOGIN: '/login',
     REGISTER: '/register',
   },
+  USER: '/user',
+  USERS: '/users',
 }

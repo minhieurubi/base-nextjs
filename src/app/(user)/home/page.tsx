@@ -6,22 +6,32 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import CustomButton from "@/components/button/CustomButton";
 import { useState } from "react";
 import { updateInfoValidationSchema } from "@/validate/yupValidatation";
-import { TProfile } from "@/types/common";
+import { UserInfo } from "@/types/common";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
+import { userApi } from "@/services/api";
+import { setUserInfo } from "@/lib/slices/userSlice";
+import { toast } from "react-toastify";
+import { getAxiosErrorMessage } from "@/helper/common";
 
 const UserHome = () => {
+  const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  const initialValues: TProfile = {
-    username: "1111",
-    email: "123@123",
-    password: "ccccc",
-    urlAvatar: "",
-  };
+  const userInfo = useSelector((state: RootState) => state.user.info);
 
-  const handleSubmit = (values: TProfile) => {
-    console.log("Dữ liệu login:", values);
-    // TODO: Gọi API login ở đây
+  const handleSubmit =async (values: UserInfo) => {
     setIsEditing(false);
+    try {
+      const res = await userApi.updateUserInfo({
+        username: values.username,
+        email: values.email,
+        password: values.password,
+      });
+      dispatch(setUserInfo(res.data));
+    } catch (error) {
+      toast.error(getAxiosErrorMessage(error));
+    }
   };
 
   return (
@@ -34,8 +44,9 @@ const UserHome = () => {
         />
 
         <Formik
-          initialValues={initialValues}
+          initialValues={userInfo}
           validationSchema={updateInfoValidationSchema}
+          enableReinitialize={true}
           onSubmit={handleSubmit}
         >
           {({ errors, touched }) => (
