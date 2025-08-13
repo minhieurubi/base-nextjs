@@ -11,3 +11,10 @@ export const ROUTERS = {
     HOME: '/home',
   }
 };
+
+export const API_ROUTES = {
+  AUTH: {
+    LOGIN: '/login',
+    REGISTER: '/register',
+  },
+}
