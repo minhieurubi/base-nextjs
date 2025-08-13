@@ -11,6 +11,7 @@ import { ROUTERS } from "@/constants/routers";
 import { useRouter } from "next/navigation";
 import { ROLES } from "@/constants/roles";
 import { getAxiosErrorMessage } from "@/helper/common";
+import { saveToken } from "@/ultis/cookie";
 
 const Register = () => {
   const router = useRouter();
@@ -25,7 +26,7 @@ const Register = () => {
       const res = await userApi.register(values);
 
       if (res.status === 201 && res.data.token) {
-        localStorage.setItem('token', res.data.token);
+        saveToken(res.data.token);
         toast.success(res.message);
 
         if (res.data.user.role === ROLES.USER) {
@@ -111,6 +112,16 @@ const Register = () => {
           </Form>
         )}
       </Formik>
+      <CustomButton
+        type="button"
+        variant="contained"
+        color="primary"
+        fullWidth
+        sx={{ mt: 2 }}
+        onClick={() => router.push(ROUTERS.AUTH.LOGIN)}
+      >
+        Login
+      </CustomButton>
     </Box>
   );
 };
