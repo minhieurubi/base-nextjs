@@ -4,21 +4,38 @@ import { Box, TextField, Typography } from "@mui/material";
 import { Field, Form, Formik, ErrorMessage } from "formik";
 import CustomButton from "@/components/button/CustomButton";
 import { loginValidationSchema } from "@/validate/yupValidatation";
-
-type TLogin = {
-  email: string;
-  password: string;
-};
+import { TLogin } from "@/types/common";
+import { userApi } from "@/services/api";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
+import { ROUTERS } from "@/constants/routers";
+import { ROLES } from "@/constants/roles";
+import { getAxiosErrorMessage } from "@/helper/common";
 
 const Login = () => {
+  const router = useRouter();
   const initialValues: TLogin = {
-    email: "",
-    password: "",
+    email: "user1@gmail.com",
+    password: "123456",
   };
 
-  const handleSubmit = (values: TLogin) => {
-    console.log("Dữ liệu login:", values);
-    // TODO: Gọi API login ở đây
+  const handleSubmit = async (values: TLogin) => {
+    try {
+      const res = await userApi.login(values);
+      if (res.status === 200 && res.data.token) {
+        localStorage.setItem('token', res.data.token);
+        toast.success(res.message);
+
+        if (res.data.user.role === ROLES.ADMIN) {
+          router.push(ROUTERS.ADMIN.DASHBOARD);
+        }
+        if (res.data.user.role === ROLES.USER) {
+          router.push(ROUTERS.USER.HOME);
+        }
+      }
+    } catch (error) {
+      toast.error(getAxiosErrorMessage(error));
+    }
   };
 
   return (

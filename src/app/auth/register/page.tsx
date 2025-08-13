@@ -4,23 +4,37 @@ import { Box, TextField, Typography } from "@mui/material";
 import { Field, Form, Formik, ErrorMessage } from "formik";
 import CustomButton from "@/components/button/CustomButton";
 import { registerValidationSchema } from "@/validate/yupValidatation";
-
-type TRegister = {
-  username: string;
-  email: string;
-  password: string;
-};
+import { TRegister } from "@/types/common";
+import { userApi } from "@/services/api";
+import { toast } from "react-toastify";
+import { ROUTERS } from "@/constants/routers";
+import { useRouter } from "next/navigation";
+import { ROLES } from "@/constants/roles";
+import { getAxiosErrorMessage } from "@/helper/common";
 
 const Register = () => {
+  const router = useRouter();
   const initialValues: TRegister = {
     username: "",
     email: "",
     password: "",
   };
 
-  const handleSubmit = (values: TRegister) => {
-    console.log("Dữ liệu login:", values);
-    // TODO: Gọi API login ở đây
+  const handleSubmit = async (values: TRegister) => {
+    try {
+      const res = await userApi.register(values);
+
+      if (res.status === 201 && res.data.token) {
+        localStorage.setItem('token', res.data.token);
+        toast.success(res.message);
+
+        if (res.data.user.role === ROLES.USER) {
+          router.push(ROUTERS.USER.HOME);
+        }
+      }
+    } catch (error) {
+      toast.error(getAxiosErrorMessage(error));
+    }
   };
 
   return (
