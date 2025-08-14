@@ -21,10 +21,11 @@ export type TUpdateUserReq = {
   email: string;
   password?: string;
   urlAvatar?: string;
+  id?: string;
 }
 
 export interface UserInfo {
-  id: string;
+  _id: string;
   email: string;
   username: string;
   role: string;

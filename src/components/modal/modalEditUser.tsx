@@ -1,11 +1,14 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import { TProfile } from "@/types/common";
+import { UserInfo } from "@/types/common";
 import { Avatar, TextField } from "@mui/material";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { updateInfoValidationSchema } from "@/validate/yupValidatation";
 import CustomButton from "@/components/button/CustomButton";
+import { userApi } from "@/services/api";
+import { toast } from "react-toastify";
+import { getAxiosErrorMessage } from "@/helper/common";
 
 const style = {
   position: 'absolute',
@@ -26,11 +29,20 @@ export default function ModalEditUser({
 }: {
   open: boolean;
   handleClose: () => void;
-  userInfo: TProfile;
+  userInfo: UserInfo;
 }) {
-  const handleSubmit = (values: TProfile) => {
-    console.log("Dữ liệu login:", values);
-    // TODO: Gọi API login ở đây
+  const handleSubmit = async (values: UserInfo) => {
+    try {
+      const res = await userApi.updateUserInfo({
+        id: values._id,
+        username: values.username,
+        email: values.email,
+        password: values.password,
+      });
+      console.log('res', res);
+    } catch (error) {
+      toast.error(getAxiosErrorMessage(error));
+    }
     handleClose();
   };
 

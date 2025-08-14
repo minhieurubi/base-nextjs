@@ -11,43 +11,28 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ModalEditUser from "@/components/modal/modalEditUser";
-import { TProfile } from "@/types/common";
+import { UserInfo } from "@/types/common";
+import { userApi } from "@/services/api";
+import { toast } from "react-toastify";
+import { getAxiosErrorMessage } from "@/helper/common";
 
-const LIST_USER: TProfile[] = [
-  {
-    username: "1",
-    email: "123@123",
-    password: "ccccc",
-    urlAvatar: "",
-  },
-  {
-    username: "2",
-    email: "234@123",
-    password: "ccccc",
-    urlAvatar: "",
-  },
-  {
-    username: "3",
-    email: "213@123",
-    password: "ccccc",
-    urlAvatar: "",
-  },
-];
-
-const DEFAULT_USER: TProfile = {
+const DEFAULT_USER: UserInfo = {
+  _id: "",
   username: "",
   email: "",
   password: "",
   urlAvatar: "",
+  role: "user",
 };
 
 const Dashboard = () => {
   const [open, setOpen] = useState<boolean>(false);
-  const [selectedUser, setSelectedUser] = useState<TProfile>(DEFAULT_USER);
+  const [selectedUser, setSelectedUser] = useState<UserInfo>(DEFAULT_USER);
+  const [users, setUsers] = useState<UserInfo[]>([]);
 
-  const handleEdit = (user: TProfile) => {
+  const handleEdit = (user: UserInfo) => {
     setSelectedUser(user);
     setOpen(true);
   };
@@ -57,6 +42,17 @@ const Dashboard = () => {
     setSelectedUser(DEFAULT_USER);
   };
 
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await userApi.getUsers();
+        setUsers(res.data);
+      } catch (error) {
+        toast.error(getAxiosErrorMessage(error));
+      }
+    })()
+  }, []);
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
       <Box sx={{ p: 2 }}>
@@ -65,12 +61,12 @@ const Dashboard = () => {
             <TableHead>
               <TableRow>
                 <TableCell sx={{width: '350px'}}>Username</TableCell>
-                <TableCell>Email</TableCell>
-                <TableCell>Action</TableCell>
+                <TableCell sx={{width: '350px'}}>Email</TableCell>
+                <TableCell sx={{width: '200px'}}>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {LIST_USER.map((user, index) => (
+              {users.map((user, index) => (
                 <TableRow key={index}>
                   <TableCell>{user.username}</TableCell>
                   <TableCell>{user.email}</TableCell>
