@@ -6,10 +6,14 @@ if (!MONGODB_URI) {
   throw new Error("Vui lòng thêm MONGODB_URI vào .env.local");
 }
 
-let cached = (global as any).mongoose;
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+let cached = (global as unknown).mongoose;
 
 if (!cached) {
-  cached = (global as any).mongoose = { conn: null, promise: null };
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  cached = (global as unknown).mongoose = { conn: null, promise: null };
 }
 
 export async function connectDB() {

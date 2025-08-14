@@ -17,6 +17,7 @@ export function getUserPayload(req: Request) {
     const payload = JSON.parse(payloadHeader);
     return { error: null, payload };
   } catch (e) {
+    console.error(e);
     return {
       error: createResponse(
         HttpStatusCode.BadRequest,

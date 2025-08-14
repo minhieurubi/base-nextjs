@@ -29,7 +29,7 @@ export default function Header() {
         toast.error(getAxiosErrorMessage(error));
       }
     })();
-  }, []);
+  }, [dispatch]);
 
   const handleNavigation = (path: string) => {
     router.push(path);

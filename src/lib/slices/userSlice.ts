@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserInfo } from "@/types/common";
 
 const DEFAULT_INFO = {
-  id: "",
+  _id: "",
   email: "",
   username: "",
   role: "",
