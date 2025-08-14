@@ -1,7 +1,7 @@
 "use client";
 
 import Box from "@mui/material/Box";
-import { Avatar, TextField } from "@mui/material";
+import { Avatar, IconButton, InputAdornment, TextField } from "@mui/material";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import CustomButton from "@/components/button/CustomButton";
 import { useState } from "react";
@@ -13,14 +13,16 @@ import { userApi } from "@/services/api";
 import { setUserInfo } from "@/lib/slices/userSlice";
 import { toast } from "react-toastify";
 import { getAxiosErrorMessage } from "@/helper/common";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const UserHome = () => {
   const dispatch = useDispatch();
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const userInfo = useSelector((state: RootState) => state.user.info);
 
-  const handleSubmit =async (values: UserInfo) => {
+  const handleSubmit = async (values: UserInfo) => {
     setIsEditing(false);
     try {
       const res = await userApi.updateUserInfo({
@@ -49,12 +51,12 @@ const UserHome = () => {
           enableReinitialize={true}
           onSubmit={handleSubmit}
         >
-          {({ errors, touched }) => (
+          {({ errors, touched, resetForm }) => (
             <Form>
               {/* Username */}
               <Field
                 as={TextField}
-                label="username"
+                label="Username"
                 name="username"
                 type="username"
                 fullWidth
@@ -84,28 +86,55 @@ const UserHome = () => {
                 as={TextField}
                 label="Password"
                 name="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 fullWidth
                 variant="outlined"
                 margin="dense"
                 error={touched.password && Boolean(errors.password)}
                 helperText={<ErrorMessage name="password" />}
                 disabled={!isEditing}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        edge="end"
+                        disabled={!isEditing}
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
 
               {/* Submit */}
               {isEditing && (
-                <CustomButton
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                  fullWidth
-                  sx={{ mt: 2 }}
-                >
-                  Submit
-                </CustomButton>
+                <Box sx={{ display: 'flex', gap: 2 }}>
+                  <CustomButton
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    sx={{ mt: 2 }}
+                  >
+                    Submit
+                  </CustomButton>
+                  <CustomButton
+                    type="button"
+                    onClick={() => {
+                      resetForm();
+                      setIsEditing(false);
+                    }}
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    sx={{ mt: 2 }}
+                  >
+                    Cancel
+                  </CustomButton>
+                </Box>
               )}
-
             </Form>
           )}
         </Formik>

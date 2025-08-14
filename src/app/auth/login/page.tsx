@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, IconButton, InputAdornment, Link, TextField, Typography } from "@mui/material";
 import { Field, Form, Formik, ErrorMessage } from "formik";
 import CustomButton from "@/components/button/CustomButton";
 import { loginValidationSchema } from "@/validate/yupValidatation";
@@ -14,10 +14,14 @@ import { getAxiosErrorMessage } from "@/helper/common";
 import { saveToken } from "@/ultis/cookie";
 import { useDispatch } from "react-redux";
 import { setUserInfo } from "@/lib/slices/userSlice";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useState } from "react";
 
 const Login = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const initialValues: TLogin = {
     email: "user1@gmail.com",
@@ -83,12 +87,24 @@ const Login = () => {
               as={TextField}
               label="Password"
               name="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               fullWidth
               variant="outlined"
               margin="dense"
               error={touched.password && Boolean(errors.password)}
               helperText={<ErrorMessage name="password" />}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword((prev) => !prev)}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
 
             {/* Submit */}
@@ -105,16 +121,15 @@ const Login = () => {
           </Form>
         )}
       </Formik>
-      <CustomButton
-        type="button"
-        variant="contained"
-        color="primary"
-        fullWidth
-        sx={{ mt: 2 }}
-        onClick={() => router.push(ROUTERS.AUTH.REGISTER)}
-      >
-        Register
-      </CustomButton>
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 2}}>
+        <Link
+          component="button"
+          variant="body2"
+          onClick={() => router.push(ROUTERS.AUTH.REGISTER)}
+        >
+          Register
+        </Link>
+      </Box>
     </Box>
   );
 };
