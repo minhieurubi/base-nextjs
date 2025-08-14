@@ -14,9 +14,12 @@ import { setUserInfo } from "@/lib/slices/userSlice";
 import { toast } from "react-toastify";
 import { getAxiosErrorMessage } from "@/helper/common";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useTranslation } from "react-i18next";
 
 const UserHome = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation('common');
+
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -32,7 +35,7 @@ const UserHome = () => {
       });
       dispatch(setUserInfo(res.data));
     } catch (error) {
-      toast.error(getAxiosErrorMessage(error));
+      toast.error(getAxiosErrorMessage(t(`${error}`)));
     }
   };
 
@@ -56,7 +59,7 @@ const UserHome = () => {
               {/* Username */}
               <Field
                 as={TextField}
-                label="Username"
+                label={t('username')}
                 name="username"
                 type="username"
                 fullWidth
@@ -70,7 +73,7 @@ const UserHome = () => {
               {/* Email */}
               <Field
                 as={TextField}
-                label="Email"
+                label={t('email')}
                 name="email"
                 type="email"
                 fullWidth
@@ -84,7 +87,7 @@ const UserHome = () => {
               {/* Password */}
               <Field
                 as={TextField}
-                label="Password"
+                label={t('password')}
                 name="password"
                 type={showPassword ? "text" : "password"}
                 fullWidth
@@ -118,7 +121,7 @@ const UserHome = () => {
                     fullWidth
                     sx={{ mt: 2 }}
                   >
-                    Submit
+                    {t('save')}
                   </CustomButton>
                   <CustomButton
                     type="button"
@@ -131,7 +134,7 @@ const UserHome = () => {
                     fullWidth
                     sx={{ mt: 2 }}
                   >
-                    Cancel
+                    {t('cancel')}
                   </CustomButton>
                 </Box>
               )}
@@ -146,7 +149,7 @@ const UserHome = () => {
             fullWidth
             sx={{ mt: 2 }}
           >
-            Edit
+            {t('edit')}
           </CustomButton>
         )}
       </Box>

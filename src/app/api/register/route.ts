@@ -11,12 +11,12 @@ export async function POST(req: Request) {
     const { username, email, password, role } = await req.json();
 
     if (!username || !email || !password) {
-      return createResponse(HttpStatusCode.BadRequest, "Thiếu thông tin");
+      return createResponse(HttpStatusCode.BadRequest, "missing_email_or_password");
     }
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return createResponse(HttpStatusCode.BadRequest, "Email đã tồn tại");
+      return createResponse(HttpStatusCode.BadRequest, "email_exists");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -34,7 +34,7 @@ export async function POST(req: Request) {
       { expiresIn: "1d" }
     );
 
-    return createResponse(HttpStatusCode.Created, "Đăng ký thành công", {
+    return createResponse(HttpStatusCode.Created, "register_success", {
       token,
       user: {
         id: newUser._id,
@@ -45,6 +45,6 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     console.error(error);
-    return createResponse(HttpStatusCode.InternalServerError, "Lỗi server");
+    return createResponse(HttpStatusCode.InternalServerError, "server_error");
   }
 }

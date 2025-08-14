@@ -13,16 +13,16 @@ export async function GET(req: Request) {
     if (error) return error;
 
     if (payload.role !== ROLES.ADMIN) {
-      return createResponse(HttpStatusCode.Forbidden, "Permission denied");
+      return createResponse(HttpStatusCode.Forbidden, "permission_denied");
     }
 
     const users = await User.find({ role: ROLES.USER })
       .select("-password")
       .sort({ createdAt: -1 });
 
-    return createResponse(HttpStatusCode.Ok, "Lấy danh sách thành công", users);
+    return createResponse(HttpStatusCode.Ok, "success", users);
   } catch (error) {
     console.error(error);
-    return createResponse(HttpStatusCode.InternalServerError, "Lỗi server");
+    return createResponse(HttpStatusCode.InternalServerError, "server_error");
   }
 }

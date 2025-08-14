@@ -11,17 +11,17 @@ export async function POST(req: Request) {
     const { email, password } = await req.json();
 
     if (!email || !password) {
-      return createResponse(HttpStatusCode.BadRequest, "Thiếu email hoặc mật khẩu");
+      return createResponse(HttpStatusCode.BadRequest, "missing_email_or_password");
     }
 
     const user = await User.findOne({ email });
     if (!user) {
-      return createResponse(HttpStatusCode.NotFound, "Email không tồn tại");
+      return createResponse(HttpStatusCode.NotFound, "email_does_not_exist");
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return createResponse(HttpStatusCode.Unauthorized, "Mật khẩu không đúng");
+      return createResponse(HttpStatusCode.Unauthorized, "password_incorrect");
     }
 
     const token = jwt.sign(
@@ -30,7 +30,7 @@ export async function POST(req: Request) {
       { expiresIn: "1d" }
     );
 
-    return createResponse(HttpStatusCode.Ok, "Đăng nhập thành công", {
+    return createResponse(HttpStatusCode.Ok, "login_success", {
       token,
       user: {
         id: user._id,
@@ -41,6 +41,6 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     console.error(error);
-    return createResponse(HttpStatusCode.InternalServerError, "Lỗi server");
+    return createResponse(HttpStatusCode.InternalServerError, "server_error");
   }
 }

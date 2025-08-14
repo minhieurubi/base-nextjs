@@ -9,10 +9,14 @@ import { toast } from "react-toastify";
 import { getAxiosErrorMessage } from "@/helper/common";
 import { setUserInfo } from "@/lib/slices/userSlice";
 import { useDispatch } from "react-redux";
+import { Language } from "@/components/languageSwitcher/language";
+import { useTranslation } from "react-i18next";
 
 export default function Header() {
   const router = useRouter();
   const dispatch = useDispatch();
+  const { t } = useTranslation('common');
+
   const [isToken, setIsToken] = useState<boolean>(false);
 
   useEffect(() => {
@@ -26,10 +30,10 @@ export default function Header() {
         const res = await userApi.getUserInfo();
         dispatch(setUserInfo(res.data));
       } catch (error) {
-        toast.error(getAxiosErrorMessage(error));
+        toast.error(getAxiosErrorMessage(t(`${error}`)));
       }
     })();
-  }, [dispatch]);
+  }, [dispatch, t]);
 
   const handleNavigation = (path: string) => {
     router.push(path);
@@ -42,14 +46,23 @@ export default function Header() {
   };
 
   return (
-    <Box sx={{ padding: "16px", height: "64px", display: "flex", justifyContent: 'flex-end', gap: "10px" }}>
+    <Box sx={{ padding: "16px", height: "64px", display: "flex", justifyContent: 'space-between', gap: "10px" }}>
+      <Language />
       {isToken ? (
-        <CustomButton onClick={handleLogout}>Logout</CustomButton>
+        <CustomButton
+          sx={{ backgroundColor: "#ff6b6b" }}
+          onClick={handleLogout}>
+          {t('logout')}
+        </CustomButton>
       ) : (
-        <>
-          <CustomButton onClick={() => handleNavigation(ROUTERS.AUTH.LOGIN)}>Login</CustomButton>
-          <CustomButton onClick={() => handleNavigation(ROUTERS.AUTH.REGISTER)}>Register</CustomButton>
-        </>
+        <Box sx={{ display: "flex", gap: "10px" }}>
+          <CustomButton sx={{ minWidth: '120px' }} onClick={() => handleNavigation(ROUTERS.AUTH.LOGIN)}>
+            {t('login')}
+          </CustomButton>
+          <CustomButton sx={{ minWidth: '120px' }} onClick={() => handleNavigation(ROUTERS.AUTH.REGISTER)}>
+            {t('register')}
+          </CustomButton>
+        </Box>
       )}
     </Box>
   );

@@ -15,18 +15,18 @@ export async function GET(req: Request) {
 
     const userId = payload?.id as string;
     if (!userId) {
-      return createResponse(HttpStatusCode.BadRequest, "Token không chứa id");
+      return createResponse(HttpStatusCode.BadRequest, "invalid_token");
     }
 
     const user = await User.findById(userId).select("-password");
     if (!user) {
-      return createResponse(HttpStatusCode.NotFound, "Không tìm thấy user");
+      return createResponse(HttpStatusCode.NotFound, "user_not_found");
     }
 
-    return createResponse(HttpStatusCode.Ok, "Lấy thông tin thành công", user);
+    return createResponse(HttpStatusCode.Ok, "success", user);
   } catch (error) {
     console.error(error);
-    return createResponse(HttpStatusCode.InternalServerError, "Lỗi server");
+    return createResponse(HttpStatusCode.InternalServerError, "server_error");
   }
 }
 
@@ -45,7 +45,7 @@ export async function PATCH(req: Request) {
     }
 
     if (payload.role === ROLES.USER && body.id && body.id !== payload.id) {
-      return createResponse(HttpStatusCode.Forbidden, "Permission denied");
+      return createResponse(HttpStatusCode.Forbidden, "permission_denied");
     }
 
     delete body.id;
@@ -60,9 +60,9 @@ export async function PATCH(req: Request) {
       { new: true }
     ).select('-password');
 
-    return createResponse(HttpStatusCode.Ok, "User updated successfully", updatedUser);
+    return createResponse(HttpStatusCode.Ok, "update_user_success", updatedUser);
   } catch (err) {
     console.error(err);
-    return createResponse(HttpStatusCode.InternalServerError, "Lỗi server");
+    return createResponse(HttpStatusCode.InternalServerError, "server_error");
   }
 }

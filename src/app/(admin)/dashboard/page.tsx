@@ -17,6 +17,7 @@ import { UserInfo } from "@/types/common";
 import { userApi } from "@/services/api";
 import { toast } from "react-toastify";
 import { getAxiosErrorMessage } from "@/helper/common";
+import { useTranslation } from "react-i18next";
 
 const DEFAULT_USER: UserInfo = {
   _id: "",
@@ -28,6 +29,8 @@ const DEFAULT_USER: UserInfo = {
 };
 
 const Dashboard = () => {
+  const { t } = useTranslation('common');
+
   const [open, setOpen] = useState<boolean>(false);
   const [selectedUser, setSelectedUser] = useState<UserInfo>(DEFAULT_USER);
   const [users, setUsers] = useState<UserInfo[]>([]);
@@ -48,10 +51,10 @@ const Dashboard = () => {
         const res = await userApi.getUsers();
         setUsers(res.data);
       } catch (error) {
-        toast.error(getAxiosErrorMessage(error));
+        toast.error(getAxiosErrorMessage(t(`${error}`)));
       }
-    })()
-  }, []);
+    })();
+  }, [t]);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
@@ -60,9 +63,9 @@ const Dashboard = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell sx={{width: '350px'}}>Username</TableCell>
-                <TableCell sx={{width: '350px'}}>Email</TableCell>
-                <TableCell sx={{width: '200px'}}>Action</TableCell>
+                <TableCell sx={{ width: '350px' }}>{t('username')}</TableCell>
+                <TableCell sx={{ width: '350px' }}>{t('email')}</TableCell>
+                <TableCell sx={{ width: '200px' }}>{t('actions')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -70,13 +73,13 @@ const Dashboard = () => {
                 <TableRow key={index}>
                   <TableCell>{user.username}</TableCell>
                   <TableCell>{user.email}</TableCell>
-                  <TableCell sx={{display: 'flex', gap: 1}}>
+                  <TableCell sx={{ display: 'flex', gap: 1 }}>
                     <Button
                       variant="outlined"
                       color="primary"
                       onClick={() => handleEdit(user)}
                     >
-                      Edit
+                      {t('edit')}
                     </Button>
                   </TableCell>
                 </TableRow>

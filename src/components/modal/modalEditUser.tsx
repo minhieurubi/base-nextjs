@@ -9,6 +9,7 @@ import CustomButton from "@/components/button/CustomButton";
 import { userApi } from "@/services/api";
 import { toast } from "react-toastify";
 import { getAxiosErrorMessage } from "@/helper/common";
+import { useTranslation } from "react-i18next";
 
 const style = {
   position: 'absolute',
@@ -31,6 +32,8 @@ export default function ModalEditUser({
   handleClose: () => void;
   userInfo: UserInfo;
 }) {
+  const { t } = useTranslation('common');
+
   const handleSubmit = async (values: UserInfo) => {
     try {
       const res = await userApi.updateUserInfo({
@@ -41,7 +44,7 @@ export default function ModalEditUser({
       });
       console.log('res', res);
     } catch (error) {
-      toast.error(getAxiosErrorMessage(error));
+      toast.error(getAxiosErrorMessage(t(`${error}`)));
     }
     handleClose();
   };
@@ -71,7 +74,7 @@ export default function ModalEditUser({
                 {/* Username */}
                 <Field
                   as={TextField}
-                  label="username"
+                  label={t('username')}
                   name="username"
                   type="username"
                   fullWidth
@@ -84,7 +87,7 @@ export default function ModalEditUser({
                 {/* Email */}
                 <Field
                   as={TextField}
-                  label="Email"
+                  label={t('email')}
                   name="email"
                   type="email"
                   fullWidth
@@ -97,7 +100,7 @@ export default function ModalEditUser({
                 {/* Password */}
                 <Field
                   as={TextField}
-                  label="Password"
+                  label={t('password')}
                   name="password"
                   type="password"
                   fullWidth
@@ -115,7 +118,7 @@ export default function ModalEditUser({
                   fullWidth
                   sx={{ mt: 2 }}
                 >
-                  Submit
+                  {t('save')}
                 </CustomButton>
 
               </Form>

@@ -16,10 +16,12 @@ import { useDispatch } from "react-redux";
 import { setUserInfo } from "@/lib/slices/userSlice";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const { t } = useTranslation('common');
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -34,7 +36,7 @@ const Login = () => {
       if (res.status === 200 && res.data.token) {
         saveToken(res.data.token);
         dispatch(setUserInfo(res.data.user));
-        toast.success(res.message);
+        toast.success(t(`${res.message}`));
 
         if (res.data.user.role === ROLES.ADMIN) {
           router.push(ROUTERS.ADMIN.DASHBOARD);
@@ -44,7 +46,7 @@ const Login = () => {
         }
       }
     } catch (error) {
-      toast.error(getAxiosErrorMessage(error));
+      toast.error(getAxiosErrorMessage(t(`${error}`)));
     }
   };
 
@@ -59,7 +61,7 @@ const Login = () => {
       }}
     >
       <Typography variant="h5" mb={2}>
-        Login
+        {t('login')}
       </Typography>
 
       <Formik
@@ -72,7 +74,7 @@ const Login = () => {
             {/* Email */}
             <Field
               as={TextField}
-              label="Email"
+              label={t('email')}
               name="email"
               type="email"
               fullWidth
@@ -85,7 +87,7 @@ const Login = () => {
             {/* Password */}
             <Field
               as={TextField}
-              label="Password"
+              label={t('password')}
               name="password"
               type={showPassword ? "text" : "password"}
               fullWidth
@@ -116,18 +118,18 @@ const Login = () => {
               sx={{ mt: 2 }}
               disabled={isSubmitting}
             >
-              Submit
+              {t('login')}
             </CustomButton>
           </Form>
         )}
       </Formik>
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 2}}>
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
         <Link
           component="button"
           variant="body2"
           onClick={() => router.push(ROUTERS.AUTH.REGISTER)}
         >
-          Register
+          {t('register')}
         </Link>
       </Box>
     </Box>

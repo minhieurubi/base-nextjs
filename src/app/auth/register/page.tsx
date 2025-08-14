@@ -14,9 +14,11 @@ import { getAxiosErrorMessage } from "@/helper/common";
 import { saveToken } from "@/ultis/cookie";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const Register = () => {
   const router = useRouter();
+  const { t } = useTranslation('common');
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -32,14 +34,14 @@ const Register = () => {
 
       if (res.status === 201 && res.data.token) {
         saveToken(res.data.token);
-        toast.success(res.message);
+        toast.success(t(`${res.message}`));
 
         if (res.data.user.role === ROLES.USER) {
           router.push(ROUTERS.USER.HOME);
         }
       }
     } catch (error) {
-      toast.error(getAxiosErrorMessage(error));
+      toast.error(getAxiosErrorMessage(t(`${error}`)));
     }
   };
 
@@ -54,7 +56,7 @@ const Register = () => {
       }}
     >
       <Typography variant="h5" mb={2}>
-        Register
+        {t('register')}
       </Typography>
 
       <Formik
@@ -67,7 +69,7 @@ const Register = () => {
             {/* Username */}
             <Field
               as={TextField}
-              label="username"
+              label={t('username')}
               name="username"
               type="username"
               fullWidth
@@ -80,7 +82,7 @@ const Register = () => {
             {/* Email */}
             <Field
               as={TextField}
-              label="Email"
+              label={t('email')}
               name="email"
               type="email"
               fullWidth
@@ -93,7 +95,7 @@ const Register = () => {
             {/* Password */}
             <Field
               as={TextField}
-              label="Password"
+              label={t('password')}
               name="password"
               type={showPassword ? "text" : "password"}
               fullWidth
@@ -124,7 +126,7 @@ const Register = () => {
               sx={{ mt: 2 }}
               disabled={isSubmitting}
             >
-              Submit
+              {t('register')}
             </CustomButton>
           </Form>
         )}
@@ -135,7 +137,7 @@ const Register = () => {
           variant="body2"
           onClick={() => router.push(ROUTERS.AUTH.LOGIN)}
         >
-          Go to Login
+          {t('login')}
         </Link>
       </Box>
     </Box>
