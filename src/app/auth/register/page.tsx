@@ -29,6 +29,10 @@ const Register = () => {
   };
 
   const handleSubmit = async (values: TUpdateUserReq) => {
+    if (!values.username || !values.email || !values.password) {
+      toast.error(t('all_fields_required'));
+      return;
+    }
     try {
       const res = await userApi.register(values);
 

@@ -1,6 +1,13 @@
 import baseApi from "@/ultis/baseApi";
 import { API_ROUTES } from "@/constants/routers";
-import { TApiResponse, TLogin, TAuthResponse, TUpdateUserReq, UserInfo } from "@/types/common";
+import {
+  TApiResponse,
+  TLogin,
+  TAuthResponse,
+  TUpdateUserReq,
+  UserInfo,
+  CloudinarySignatureResponse,
+} from "@/types/common";
 
 export const userApi = {
   login: async (data: TLogin): Promise<TApiResponse<TAuthResponse>> => {
@@ -17,5 +24,8 @@ export const userApi = {
   },
   getUsers: async (): Promise<TApiResponse<Array<UserInfo>>> => {
     return await baseApi.get(API_ROUTES.USERS);
+  },
+  getSignature: async (data: { folder: string }): Promise<CloudinarySignatureResponse> => {
+    return await baseApi.post(API_ROUTES.SIGN_CLOUDINARY_PARAMS, data);
   },
 };

@@ -19,4 +19,5 @@ export const API_ROUTES = {
   },
   USER: '/user',
   USERS: '/users',
-}
+  SIGN_CLOUDINARY_PARAMS: '/sign-cloudinary-params',
+};

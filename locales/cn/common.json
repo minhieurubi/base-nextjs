@@ -22,5 +22,9 @@
   "user_not_found": "用户不存在",
   "success": "成功",
   "invalid_token": "无效的令牌",
-  "an_unknown_error_occurred": "发生未知错误"
+  "an_unknown_error_occurred": "发生未知错误",
+  "all_fields_required": "所有字段都是必填的",
+  "file_over_2mb": "文件过大。请选择小于等于2MB的文件。",
+  "unable_to_upload_image": "无法上传图片。请重试。",
+  "upload_image": "上传图片"
 }

@@ -17,8 +17,8 @@ export type TLogin = {
 }
 
 export type TUpdateUserReq = {
-  username: string;
-  email: string;
+  username?: string;
+  email?: string;
   password?: string;
   urlAvatar?: string;
   id?: string;
@@ -37,3 +37,10 @@ export type TAuthResponse = {
   token: string;
   user: UserInfo;
 };
+
+export interface CloudinarySignatureResponse {
+  signature: string;
+  api_key: string;
+  timestamp: number;
+  folder: string;
+}

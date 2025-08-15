@@ -22,5 +22,9 @@
   "user_not_found": "User not found",
   "success": "Success",
   "invalid_token": "Invalid token",
-  "an_unknown_error_occurred": "An unknown error occurred"
+  "an_unknown_error_occurred": "An unknown error occurred",
+  "all_fields_required": "All fields are required",
+  "file_over_2mb": "File is too large. Please select a file <= 2MB.",
+  "unable_to_upload_image": "Unable to upload image. Please try again.",
+  "upload_image": "Upload Image"
 }

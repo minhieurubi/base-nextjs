@@ -22,5 +22,9 @@
   "user_not_found": "Không tìm thấy người dùng",
   "success": "Thành công",
   "invalid_token": "Token không hợp lệ",
-  "an_unknown_error_occurred": "Đã xảy ra lỗi không xác định"
+  "an_unknown_error_occurred": "Đã xảy ra lỗi không xác định",
+  "all_fields_required": "Tất cả các trường đều bắt buộc",
+  "file_over_2mb": "File quá lớn. Vui lòng chọn file <= 2MB.",
+  "unable_to_upload_image": "Không thể tải ảnh lên. Vui lòng thử lại.",
+  "upload_image": "Tải ảnh lên"
 }
