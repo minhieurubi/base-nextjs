@@ -17,15 +17,20 @@ import { getAxiosErrorMessage } from "@/helper/common";
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { setUserInfo } from "@/lib/slices/userSlice";
+import { UserInfo } from "@/types/common";
 
 interface AvatarWithModalProps {
   initialAvatar?: string;
   size?: number;
+  userId?: string;
+  setSelectedUser?: React.Dispatch<React.SetStateAction<UserInfo>>
 }
 
 const AvatarWithModal: React.FC<AvatarWithModalProps> = ({
   initialAvatar,
   size = 80,
+  userId,
+  setSelectedUser,
 }) => {
   const { t } = useTranslation('common');
   const dispatch = useDispatch();
@@ -71,8 +76,19 @@ const AvatarWithModal: React.FC<AvatarWithModalProps> = ({
       }
       setPreview(url);
       try {
-        const res = await userApi.updateUserInfo({ urlAvatar: url });
-        dispatch(setUserInfo(res.data));
+        const res = await userApi.updateUserInfo({
+          id: userId || "",
+          urlAvatar: url,
+          ...(userId ? { id: userId } : {}),
+        });
+
+        if (userId && setSelectedUser) {
+          setSelectedUser(res.data);
+        }
+
+        if (!userId) {
+          dispatch(setUserInfo(res.data));
+        }
       } catch (error) {
         toast.error(getAxiosErrorMessage(t(`${error}`)));
       }

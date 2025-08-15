@@ -16,11 +16,32 @@ export async function GET(req: Request) {
       return createResponse(HttpStatusCode.Forbidden, "permission_denied");
     }
 
-    const users = await User.find({ role: ROLES.USER })
-      .select("-password")
-      .sort({ createdAt: -1 });
+    const { searchParams } = new URL(req.url);
+    const page = parseInt(searchParams.get("page") || "1", 10);
+    const perPage = parseInt(searchParams.get("perPage") || "10", 10);
 
-    return createResponse(HttpStatusCode.Ok, "success", users);
+    const skip = (page - 1) * perPage;
+
+    const [users, total] = await Promise.all([
+      User.find({ role: ROLES.USER })
+        .select("-password")
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(perPage),
+      User.countDocuments({ role: ROLES.USER }),
+    ]);
+
+    const totalPages = Math.ceil(total / perPage);
+
+    return createResponse(HttpStatusCode.Ok, "success", {
+      users,
+      pagination: {
+        total,
+        page,
+        perPage,
+        totalPages,
+      },
+    });
   } catch (error) {
     console.error(error);
     return createResponse(HttpStatusCode.InternalServerError, "server_error");

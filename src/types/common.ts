@@ -44,3 +44,18 @@ export interface CloudinarySignatureResponse {
   timestamp: number;
   folder: string;
 }
+
+export interface GetUsersParams {
+  page?: number;
+  perPage?: number;
+}
+
+export type TUsers = {
+  pagination: {
+    page: number;
+    perPage: number;
+    total: number;
+    totalPages: number;
+  };
+  users: Array<UserInfo>;
+};

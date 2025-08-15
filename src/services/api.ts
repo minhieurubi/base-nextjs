@@ -6,8 +6,9 @@ import {
   TAuthResponse,
   TUpdateUserReq,
   UserInfo,
-  CloudinarySignatureResponse,
+  CloudinarySignatureResponse, GetUsersParams, TUsers,
 } from "@/types/common";
+import { ROW_PER_PAGE_OPTIONS } from "@/constants/common";
 
 export const userApi = {
   login: async (data: TLogin): Promise<TApiResponse<TAuthResponse>> => {
@@ -22,8 +23,15 @@ export const userApi = {
   updateUserInfo: async (data: TUpdateUserReq): Promise<TApiResponse<UserInfo>> => {
     return await baseApi.patch(API_ROUTES.USER, data);
   },
-  getUsers: async (): Promise<TApiResponse<Array<UserInfo>>> => {
-    return await baseApi.get(API_ROUTES.USERS);
+  getUsers: async (
+    params: GetUsersParams = {}
+  ): Promise<TApiResponse<TUsers>> => {
+    const query = new URLSearchParams({
+      page: String(params.page || 1),
+      perPage: String(params.perPage || ROW_PER_PAGE_OPTIONS[0]),
+    });
+
+    return await baseApi.get(`${API_ROUTES.USERS}?${query.toString()}`);
   },
   getSignature: async (data: { folder: string }): Promise<CloudinarySignatureResponse> => {
     return await baseApi.post(API_ROUTES.SIGN_CLOUDINARY_PARAMS, data);

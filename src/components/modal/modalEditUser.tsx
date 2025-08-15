@@ -2,7 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { UserInfo } from "@/types/common";
-import { Avatar, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { updateInfoValidationSchema } from "@/validate/yupValidatation";
 import CustomButton from "@/components/button/CustomButton";
@@ -10,6 +10,7 @@ import { userApi } from "@/services/api";
 import { toast } from "react-toastify";
 import { getAxiosErrorMessage } from "@/helper/common";
 import { useTranslation } from "react-i18next";
+import AvatarWithModal from "@/components/avatar/avatar";
 
 const style = {
   position: 'absolute',
@@ -27,10 +28,12 @@ export default function ModalEditUser({
   open,
   handleClose,
   userInfo,
+  setSelectedUser,
 }: {
   open: boolean;
   handleClose: () => void;
   userInfo: UserInfo;
+  setSelectedUser: React.Dispatch<React.SetStateAction<UserInfo>>
 }) {
   const { t } = useTranslation('common');
 
@@ -42,7 +45,7 @@ export default function ModalEditUser({
         email: values.email,
         password: values.password,
       });
-      console.log('res', res);
+      setSelectedUser(res.data);
     } catch (error) {
       toast.error(getAxiosErrorMessage(t(`${error}`)));
     }
@@ -58,10 +61,10 @@ export default function ModalEditUser({
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Avatar
-            alt="Remy Sharp"
-            src="https://letsenhance.io/static/73136da51c245e80edc6ccfe44888a99/396e9/MainBefore.jpg"
-            sx={{ width: 56, height: 56 }}
+          <AvatarWithModal
+            initialAvatar={userInfo.urlAvatar}
+            userId={userInfo._id}
+            setSelectedUser={setSelectedUser}
           />
 
           <Formik
