@@ -2,7 +2,17 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+Copy environment variables
+
+Copy the env.example file to `.env.local`
+
+Start database (web ui) with Docker:
+
+```bash
+docker-compose up --build
+```
+
+Run the development server:
 
 ```bash
 npm run dev
