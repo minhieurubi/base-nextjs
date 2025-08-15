@@ -9,7 +9,7 @@ export const ROUTERS = {
   },
   USER: {
     HOME: '/home',
-  }
+  },
 };
 
 export const API_ROUTES = {

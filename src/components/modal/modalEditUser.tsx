@@ -1,16 +1,16 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import { UserInfo } from "@/types/common";
-import { TextField } from "@mui/material";
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import { updateInfoValidationSchema } from "@/validate/yupValidatation";
-import CustomButton from "@/components/button/CustomButton";
-import { userApi } from "@/services/api";
-import { toast } from "react-toastify";
-import { getAxiosErrorMessage } from "@/helper/common";
-import { useTranslation } from "react-i18next";
-import AvatarWithModal from "@/components/avatar/avatar";
+import { UserInfo } from '@/types/common';
+import { TextField } from '@mui/material';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { updateInfoValidationSchema } from '@/validate/yupValidatation';
+import CustomButton from '@/components/button/CustomButton';
+import { userApi } from '@/services/api';
+import { toast } from 'react-toastify';
+import { getAxiosErrorMessage } from '@/helper/common';
+import { useTranslation } from 'react-i18next';
+import AvatarWithModal from '@/components/avatar/avatar';
 
 const style = {
   position: 'absolute',
@@ -33,7 +33,7 @@ export default function ModalEditUser({
   open: boolean;
   handleClose: () => void;
   userInfo: UserInfo;
-  setSelectedUser: React.Dispatch<React.SetStateAction<UserInfo>>
+  setSelectedUser: React.Dispatch<React.SetStateAction<UserInfo>>;
 }) {
   const { t } = useTranslation('common');
 
@@ -123,12 +123,10 @@ export default function ModalEditUser({
                 >
                   {t('save')}
                 </CustomButton>
-
               </Form>
             )}
           </Formik>
         </Box>
-
       </Modal>
     </div>
   );

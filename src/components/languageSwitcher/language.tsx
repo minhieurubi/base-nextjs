@@ -1,10 +1,10 @@
 'use client';
 
 import i18n from '@/app/i18n';
-import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
-import { setLanguage } from "@/lib/slices/settings";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/lib/store";
+import { MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { setLanguage } from '@/lib/slices/settings';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/lib/store';
 
 export const Language = () => {
   const dispatch = useDispatch();

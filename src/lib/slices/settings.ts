@@ -1,5 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface SettingsState {
   lng: string;
@@ -10,7 +9,7 @@ const initialState: SettingsState = {
 };
 
 const settingsSlice = createSlice({
-  name: "settings",
+  name: 'settings',
   initialState,
   reducers: {
     setLanguage: (state, action: PayloadAction<string>) => {

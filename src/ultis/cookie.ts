@@ -1,18 +1,18 @@
-import { deleteCookie, getCookie, setCookie } from "cookies-next";
+import { deleteCookie, getCookie, setCookie } from 'cookies-next';
 
 export const removeCookies = () => {
   deleteCookie('token');
 };
 
 export const saveToken = (token: string) => {
-  setCookie("token", token, {
+  setCookie('token', token, {
     maxAge: 60 * 60 * 24,
-    path: "/",
+    path: '/',
     secure: true,
-    sameSite: "strict",
+    sameSite: 'strict',
   });
 };
 
 export const getAccessToken = () => {
-  return getCookie("token") || "";
+  return getCookie('token') || '';
 };

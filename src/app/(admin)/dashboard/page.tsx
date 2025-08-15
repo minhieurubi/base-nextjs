@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import Box from "@mui/material/Box";
+import Box from '@mui/material/Box';
 import {
   Button,
   Paper,
@@ -11,23 +11,23 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-} from "@mui/material";
-import { ChangeEvent, useEffect, useState } from "react";
-import ModalEditUser from "@/components/modal/modalEditUser";
-import { UserInfo } from "@/types/common";
-import { userApi } from "@/services/api";
-import { toast } from "react-toastify";
-import { getAxiosErrorMessage } from "@/helper/common";
-import { useTranslation } from "react-i18next";
-import { ROW_PER_PAGE_OPTIONS } from "@/constants/common";
+} from '@mui/material';
+import { ChangeEvent, useEffect, useState } from 'react';
+import ModalEditUser from '@/components/modal/modalEditUser';
+import { UserInfo } from '@/types/common';
+import { userApi } from '@/services/api';
+import { toast } from 'react-toastify';
+import { getAxiosErrorMessage } from '@/helper/common';
+import { useTranslation } from 'react-i18next';
+import { ROW_PER_PAGE_OPTIONS } from '@/constants/common';
 
 const DEFAULT_USER: UserInfo = {
-  _id: "",
-  username: "",
-  email: "",
-  password: "",
-  urlAvatar: "",
-  role: "user",
+  _id: '',
+  username: '',
+  email: '',
+  password: '',
+  urlAvatar: '',
+  role: 'user',
 };
 
 const Dashboard = () => {
@@ -75,7 +75,14 @@ const Dashboard = () => {
   }, [t, page, rowsPerPage]);
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       <Box sx={{ p: 2 }}>
         <TableContainer component={Paper}>
           <Table>
@@ -92,11 +99,7 @@ const Dashboard = () => {
                   <TableCell>{user.username}</TableCell>
                   <TableCell>{user.email}</TableCell>
                   <TableCell sx={{ display: 'flex', gap: 1 }}>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      onClick={() => handleEdit(user)}
-                    >
+                    <Button variant="outlined" color="primary" onClick={() => handleEdit(user)}>
                       {t('edit')}
                     </Button>
                   </TableCell>

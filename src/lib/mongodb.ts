@@ -1,9 +1,9 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI || "";
+const MONGODB_URI = process.env.MONGODB_URI || '';
 
 if (!MONGODB_URI) {
-  throw new Error("Vui lòng thêm MONGODB_URI vào .env.local");
+  throw new Error('Vui lòng thêm MONGODB_URI vào .env.local');
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

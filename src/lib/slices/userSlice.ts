@@ -1,12 +1,12 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UserInfo } from "@/types/common";
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { UserInfo } from '@/types/common';
 
 const DEFAULT_INFO = {
-  _id: "",
-  email: "",
-  username: "",
-  role: "",
-  urlAvatar: "",
+  _id: '',
+  email: '',
+  username: '',
+  role: '',
+  urlAvatar: '',
   password: '',
 };
 
@@ -19,7 +19,7 @@ const initialState: UserState = {
 };
 
 const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {
     setUserInfo: (state, action: PayloadAction<UserInfo>) => {

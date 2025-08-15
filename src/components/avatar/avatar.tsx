@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   Avatar,
   Box,
@@ -8,22 +8,22 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
-} from "@mui/material";
-import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
-import { uploadImageToCloudinary } from "@/lib/uploadImage";
-import { toast } from "react-toastify";
-import { userApi } from "@/services/api";
-import { getAxiosErrorMessage } from "@/helper/common";
-import { useTranslation } from "react-i18next";
-import { useDispatch } from "react-redux";
-import { setUserInfo } from "@/lib/slices/userSlice";
-import { UserInfo } from "@/types/common";
+} from '@mui/material';
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import { uploadImageToCloudinary } from '@/lib/uploadImage';
+import { toast } from 'react-toastify';
+import { userApi } from '@/services/api';
+import { getAxiosErrorMessage } from '@/helper/common';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { setUserInfo } from '@/lib/slices/userSlice';
+import { UserInfo } from '@/types/common';
 
 interface AvatarWithModalProps {
   initialAvatar?: string;
   size?: number;
   userId?: string;
-  setSelectedUser?: React.Dispatch<React.SetStateAction<UserInfo>>
+  setSelectedUser?: React.Dispatch<React.SetStateAction<UserInfo>>;
 }
 
 const AvatarWithModal: React.FC<AvatarWithModalProps> = ({
@@ -53,7 +53,7 @@ const AvatarWithModal: React.FC<AvatarWithModalProps> = ({
 
       const maxSize = 2 * 1024 * 1024; // 2MB
       if (file.size > maxSize) {
-        toast.warning(t("file_over_2mb"));
+        toast.warning(t('file_over_2mb'));
         return;
       }
 
@@ -71,13 +71,13 @@ const AvatarWithModal: React.FC<AvatarWithModalProps> = ({
     if (selectedFile) {
       const url = await uploadImageToCloudinary(selectedFile);
       if (!url) {
-        toast.warning(t("unable_to_upload_image"));
+        toast.warning(t('unable_to_upload_image'));
         return;
       }
       setPreview(url);
       try {
         const res = await userApi.updateUserInfo({
-          id: userId || "",
+          id: userId || '',
           urlAvatar: url,
           ...(userId ? { id: userId } : {}),
         });
@@ -106,33 +106,21 @@ const AvatarWithModal: React.FC<AvatarWithModalProps> = ({
   return (
     <Box>
       <IconButton onClick={handleOpen} sx={{ p: 0 }}>
-        <Avatar
-          src={preview}
-          sx={{ width: size, height: size, cursor: "pointer" }}
-        />
+        <Avatar src={preview} sx={{ width: size, height: size, cursor: 'pointer' }} />
       </IconButton>
 
       <Dialog
         open={open}
         slotProps={{
           paper: {
-            sx: { width: 400, maxWidth: "90%" },
+            sx: { width: 400, maxWidth: '90%' },
           },
         }}
       >
         <DialogTitle>Avatar</DialogTitle>
         <DialogContent>
-          <Box
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            gap={2}
-            mt={1}
-          >
-            <Avatar
-              src={preview}
-              sx={{ width: 250, height: 250 }}
-            />
+          <Box display="flex" flexDirection="column" alignItems="center" gap={2} mt={1}>
+            <Avatar src={preview} sx={{ width: 250, height: 250 }} />
 
             <Button
               variant="contained"
@@ -140,25 +128,18 @@ const AvatarWithModal: React.FC<AvatarWithModalProps> = ({
               startIcon={<PhotoCameraIcon />}
               disabled={isLoading}
             >
-              {t("upload_image")}
-              <input
-                hidden
-                accept="image/*"
-                type="file"
-                onChange={handleFileChange}
-              />
+              {t('upload_image')}
+              <input hidden accept="image/*" type="file" onChange={handleFileChange} />
             </Button>
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button
-            onClick={handleSave}
-            variant="contained"
-            disabled={!selectedFile || isLoading}
-          >
-            {t("save")}
+          <Button onClick={handleSave} variant="contained" disabled={!selectedFile || isLoading}>
+            {t('save')}
           </Button>
-          <Button onClick={handleClose} disabled={isLoading}>{t('cancel')}</Button>
+          <Button onClick={handleClose} disabled={isLoading}>
+            {t('cancel')}
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>

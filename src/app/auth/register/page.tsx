@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import { Box, IconButton, InputAdornment, Link, TextField, Typography } from "@mui/material";
-import { Field, Form, Formik, ErrorMessage } from "formik";
-import CustomButton from "@/components/button/CustomButton";
-import { registerValidationSchema } from "@/validate/yupValidatation";
-import { TUpdateUserReq } from "@/types/common";
-import { userApi } from "@/services/api";
-import { toast } from "react-toastify";
-import { ROUTERS } from "@/constants/routers";
-import { useRouter } from "next/navigation";
-import { ROLES } from "@/constants/roles";
-import { getAxiosErrorMessage } from "@/helper/common";
-import { saveToken } from "@/ultis/cookie";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useState } from "react";
-import { useTranslation } from "react-i18next";
+import { Box, IconButton, InputAdornment, Link, TextField, Typography } from '@mui/material';
+import { Field, Form, Formik, ErrorMessage } from 'formik';
+import CustomButton from '@/components/button/CustomButton';
+import { registerValidationSchema } from '@/validate/yupValidatation';
+import { TUpdateUserReq } from '@/types/common';
+import { userApi } from '@/services/api';
+import { toast } from 'react-toastify';
+import { ROUTERS } from '@/constants/routers';
+import { useRouter } from 'next/navigation';
+import { ROLES } from '@/constants/roles';
+import { getAxiosErrorMessage } from '@/helper/common';
+import { saveToken } from '@/ultis/cookie';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const Register = () => {
   const router = useRouter();
@@ -23,9 +23,9 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const initialValues: TUpdateUserReq = {
-    username: "",
-    email: "",
-    password: "",
+    username: '',
+    email: '',
+    password: '',
   };
 
   const handleSubmit = async (values: TUpdateUserReq) => {
@@ -54,9 +54,9 @@ const Register = () => {
       sx={{
         width: 350,
         p: 3,
-        border: "1px solid #ddd",
+        border: '1px solid #ddd',
         borderRadius: 2,
-        backgroundColor: "#fff",
+        backgroundColor: '#fff',
       }}
     >
       <Typography variant="h5" mb={2}>
@@ -101,7 +101,7 @@ const Register = () => {
               as={TextField}
               label={t('password')}
               name="password"
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               fullWidth
               variant="outlined"
               margin="dense"
@@ -110,10 +110,7 @@ const Register = () => {
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => setShowPassword((prev) => !prev)}
-                      edge="end"
-                    >
+                    <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
                       {showPassword ? <VisibilityOff /> : <Visibility />}
                     </IconButton>
                   </InputAdornment>
@@ -135,12 +132,8 @@ const Register = () => {
           </Form>
         )}
       </Formik>
-      <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
-        <Link
-          component="button"
-          variant="body2"
-          onClick={() => router.push(ROUTERS.AUTH.LOGIN)}
-        >
+      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+        <Link component="button" variant="body2" onClick={() => router.push(ROUTERS.AUTH.LOGIN)}>
           {t('login')}
         </Link>
       </Box>

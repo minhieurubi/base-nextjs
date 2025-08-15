@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import Box from "@mui/material/Box";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import CustomButton from "@/components/button/CustomButton";
-import { useState } from "react";
-import { updateInfoValidationSchema } from "@/validate/yupValidatation";
-import { UserInfo } from "@/types/common";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/lib/store";
-import { userApi } from "@/services/api";
-import { setUserInfo } from "@/lib/slices/userSlice";
-import { toast } from "react-toastify";
-import { getAxiosErrorMessage } from "@/helper/common";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { useTranslation } from "react-i18next";
-import AvatarWithModal from "@/components/avatar/avatar";
+import Box from '@mui/material/Box';
+import { IconButton, InputAdornment, TextField } from '@mui/material';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import CustomButton from '@/components/button/CustomButton';
+import { useState } from 'react';
+import { updateInfoValidationSchema } from '@/validate/yupValidatation';
+import { UserInfo } from '@/types/common';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/lib/store';
+import { userApi } from '@/services/api';
+import { setUserInfo } from '@/lib/slices/userSlice';
+import { toast } from 'react-toastify';
+import { getAxiosErrorMessage } from '@/helper/common';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useTranslation } from 'react-i18next';
+import AvatarWithModal from '@/components/avatar/avatar';
 
 const UserHome = () => {
   const dispatch = useDispatch();
@@ -41,7 +41,14 @@ const UserHome = () => {
   };
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
       <Box sx={{ width: '350px' }}>
         <AvatarWithModal initialAvatar={userInfo.urlAvatar} />
 
@@ -86,7 +93,7 @@ const UserHome = () => {
                 as={TextField}
                 label={t('password')}
                 name="password"
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? 'text' : 'password'}
                 fullWidth
                 variant="outlined"
                 margin="dense"

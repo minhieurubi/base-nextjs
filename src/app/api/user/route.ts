@@ -1,10 +1,10 @@
-import { connectDB } from "@/lib/mongodb";
-import { createResponse } from "@/helper/responseHelper";
-import { HttpStatusCode } from "axios";
-import User from "@/models/User";
-import { getUserPayload } from "@/ultis/getUserPayload";
-import * as bcrypt from "bcrypt";
-import { ROLES } from "@/constants/roles";
+import { connectDB } from '@/lib/mongodb';
+import { createResponse } from '@/helper/responseHelper';
+import { HttpStatusCode } from 'axios';
+import User from '@/models/User';
+import { getUserPayload } from '@/ultis/getUserPayload';
+import * as bcrypt from 'bcrypt';
+import { ROLES } from '@/constants/roles';
 
 export async function GET(req: Request) {
   try {
@@ -15,18 +15,18 @@ export async function GET(req: Request) {
 
     const userId = payload?.id as string;
     if (!userId) {
-      return createResponse(HttpStatusCode.BadRequest, "invalid_token");
+      return createResponse(HttpStatusCode.BadRequest, 'invalid_token');
     }
 
-    const user = await User.findById(userId).select("-password");
+    const user = await User.findById(userId).select('-password');
     if (!user) {
-      return createResponse(HttpStatusCode.NotFound, "user_not_found");
+      return createResponse(HttpStatusCode.NotFound, 'user_not_found');
     }
 
-    return createResponse(HttpStatusCode.Ok, "success", user);
+    return createResponse(HttpStatusCode.Ok, 'success', user);
   } catch (error) {
     console.error(error);
-    return createResponse(HttpStatusCode.InternalServerError, "server_error");
+    return createResponse(HttpStatusCode.InternalServerError, 'server_error');
   }
 }
 
@@ -45,7 +45,7 @@ export async function PATCH(req: Request) {
     }
 
     if (payload.role === ROLES.USER && body.id && body.id !== payload.id) {
-      return createResponse(HttpStatusCode.Forbidden, "permission_denied");
+      return createResponse(HttpStatusCode.Forbidden, 'permission_denied');
     }
 
     delete body.id;
@@ -54,15 +54,13 @@ export async function PATCH(req: Request) {
       body.password = await bcrypt.hash(body.password, 10);
     }
 
-    const updatedUser = await User.findByIdAndUpdate(
-      targetId,
-      body,
-      { new: true }
-    ).select('-password');
+    const updatedUser = await User.findByIdAndUpdate(targetId, body, { new: true }).select(
+      '-password'
+    );
 
-    return createResponse(HttpStatusCode.Ok, "update_user_success", updatedUser);
+    return createResponse(HttpStatusCode.Ok, 'update_user_success', updatedUser);
   } catch (err) {
     console.error(err);
-    return createResponse(HttpStatusCode.InternalServerError, "server_error");
+    return createResponse(HttpStatusCode.InternalServerError, 'server_error');
   }
 }

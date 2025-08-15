@@ -1,14 +1,16 @@
-import baseApi from "@/ultis/baseApi";
-import { API_ROUTES } from "@/constants/routers";
+import baseApi from '@/ultis/baseApi';
+import { API_ROUTES } from '@/constants/routers';
 import {
   TApiResponse,
   TLogin,
   TAuthResponse,
   TUpdateUserReq,
   UserInfo,
-  CloudinarySignatureResponse, GetUsersParams, TUsers,
-} from "@/types/common";
-import { ROW_PER_PAGE_OPTIONS } from "@/constants/common";
+  CloudinarySignatureResponse,
+  GetUsersParams,
+  TUsers,
+} from '@/types/common';
+import { ROW_PER_PAGE_OPTIONS } from '@/constants/common';
 
 export const userApi = {
   login: async (data: TLogin): Promise<TApiResponse<TAuthResponse>> => {
@@ -23,9 +25,7 @@ export const userApi = {
   updateUserInfo: async (data: TUpdateUserReq): Promise<TApiResponse<UserInfo>> => {
     return await baseApi.patch(API_ROUTES.USER, data);
   },
-  getUsers: async (
-    params: GetUsersParams = {}
-  ): Promise<TApiResponse<TUsers>> => {
+  getUsers: async (params: GetUsersParams = {}): Promise<TApiResponse<TUsers>> => {
     const query = new URLSearchParams({
       page: String(params.page || 1),
       perPage: String(params.perPage || ROW_PER_PAGE_OPTIONS[0]),

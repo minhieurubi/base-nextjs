@@ -1,17 +1,17 @@
-import { v2 as cloudinary } from "cloudinary";
-import { NextResponse } from "next/server";
-import { createResponse } from "@/helper/responseHelper";
-import { HttpStatusCode } from "axios";
+import { v2 as cloudinary } from 'cloudinary';
+import { NextResponse } from 'next/server';
+import { createResponse } from '@/helper/responseHelper';
+import { HttpStatusCode } from 'axios';
 
 const cloudinarySecret = process.env.CLOUDINARY_API_SECRET || '';
 const cloudinaryAPIKey = process.env.CLOUDINARY_API_KEY || '';
 
 if (!cloudinarySecret) {
-  throw new Error("Missing CLOUDINARY_API_SECRET in environment variables");
+  throw new Error('Missing CLOUDINARY_API_SECRET in environment variables');
 }
 
 if (!cloudinaryAPIKey) {
-  throw new Error("Missing CLOUDINARY_API_KEY in environment variables");
+  throw new Error('Missing CLOUDINARY_API_KEY in environment variables');
 }
 
 cloudinary.config({
@@ -41,6 +41,6 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     console.error(error);
-    return createResponse(HttpStatusCode.InternalServerError, "server_error");
+    return createResponse(HttpStatusCode.InternalServerError, 'server_error');
   }
 }

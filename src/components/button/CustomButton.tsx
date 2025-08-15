@@ -1,5 +1,5 @@
-import { Button, ButtonProps } from "@mui/material";
-import { FC, ReactNode } from "react";
+import { Button, ButtonProps } from '@mui/material';
+import { FC, ReactNode } from 'react';
 
 interface CustomButtonProps extends ButtonProps {
   children: ReactNode;
@@ -10,10 +10,10 @@ const CustomButton: FC<CustomButtonProps> = ({ children, sx, ...rest }) => {
     <Button
       variant="contained"
       sx={{
-        backgroundColor: "#1976d2",
-        color: "#fff",
-        "&:hover": {
-          backgroundColor: "#115293",
+        backgroundColor: '#1976d2',
+        color: '#fff',
+        '&:hover': {
+          backgroundColor: '#115293',
         },
         ...sx,
       }}

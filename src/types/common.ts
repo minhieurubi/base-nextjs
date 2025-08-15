@@ -14,7 +14,7 @@ export type TProfile = {
 export type TLogin = {
   email: string;
   password: string;
-}
+};
 
 export type TUpdateUserReq = {
   username?: string;
@@ -22,7 +22,7 @@ export type TUpdateUserReq = {
   password?: string;
   urlAvatar?: string;
   id?: string;
-}
+};
 
 export interface UserInfo {
   _id: string;
